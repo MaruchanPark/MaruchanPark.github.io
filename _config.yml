@@ -57,3 +57,10 @@ author:
   name: Maruchan Park
   url: https://github.com/MaruchanPark/
   email: pmrc5351@gmail.com
+
+# Math equation
+  markdown: kramdown
+  highlighter: rouge
+  lsi: false
+  excerpt_separator: "\n\n"
+  incremental: false

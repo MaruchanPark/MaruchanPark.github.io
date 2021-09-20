@@ -9,4 +9,8 @@
   {%- feed_meta -%}
 
   {%- include custom-head.html -%}
+
+  {% if page.use_math %}
+    {% include mathjax_support.html %}
+  {% endif %}
 </head>

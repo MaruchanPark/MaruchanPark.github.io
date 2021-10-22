@@ -3,7 +3,6 @@ layout: post
 title: Passage retrieval을 위한 dense embedding의 구현에서 발생한 문제, 해결 과정
 date: 2021-10-22 14:32
 tags: [nlp, ODQA, retrieval, mrc]
-toc:  true
 use_math: true
 ---
 

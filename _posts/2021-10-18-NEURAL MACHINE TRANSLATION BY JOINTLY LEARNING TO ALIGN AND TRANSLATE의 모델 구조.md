@@ -3,7 +3,6 @@ layout: post
 title: NEURAL MACHINE TRANSLATION BY JOINTLY LEARNING TO ALIGN AND TRANSLATE의 모델 구조
 date: 2021-10-18 21:07
 tags: [nlp, attention]
-toc:  true
 use_math: true
 ---
 

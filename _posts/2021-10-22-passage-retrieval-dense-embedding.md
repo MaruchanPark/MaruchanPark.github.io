@@ -24,4 +24,14 @@ ODQA는 문서에서 질문에 대한 답을 찾는 Reader, 질문과 관련있�
 
 -----
 
+view, transpose 관련 오류는 dense retrieval과 무관. 
+Wiki, MRC 등을 이용해서 설명한다. 그림이 필요함.
+
+훈련 질문에 대한 전체 문서내에서 score의 변화를 보여주는 것이 가장 의미있을 듯.
+적은 갯수의 질문에 대해서 over fitting이 되며, 질문의 갯수가 많아질수록 어떻게 훈련이 변하는지 보여주는 것.
+목요일에 전체 문서 내에서의 순위 확인. (평균?)
+훈련 질문의 갯수를 줄이거나 훈련 epoch을 늘리면 순위를 높일 수 있어야 함.
+훈련 질문의 갯수는 어떻게 조정하나?
+
+
 [^fn-sample_footnote]: Handy! Now click the return link to go back.

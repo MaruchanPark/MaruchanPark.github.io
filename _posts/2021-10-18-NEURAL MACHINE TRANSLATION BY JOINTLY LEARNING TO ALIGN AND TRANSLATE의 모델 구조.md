@@ -1,7 +1,7 @@
 ---
 layout: post
 title: NEURAL MACHINE TRANSLATION BY JOINTLY LEARNING TO ALIGN AND TRANSLATE의 모델 구조
-excerpt: seq2seq의 dditive attention 연산 과정
+excerpt: seq2seq의 additive attention 연산 과정
 date: 2021-10-18 21:07
 tags: [nlp, attention]
 use_math: true

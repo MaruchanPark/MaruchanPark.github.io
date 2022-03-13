@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Passage retrieval을 위한 dense embedding의 구현에서 발생한 문제, 해결 과정
+excerpt: Dense embedding 모델 훈련에서 발생할 수 있는 문제
 date: 2021-10-22 14:32
 tags: [nlp, ODQA, retrieval, mrc]
 use_math: true
@@ -8,7 +9,7 @@ use_math: true
 ## Open domain question answering (ODQA)
 ODQA는 문서에서 질문에 대한 답을 찾는 Reader, 질문과 관련있는 문서를 찾는 Retriever로 이루어져 있다.
 
-### Dnese Passage Retrieval
+### Dense Passage Retrieval
 - 문서를 찾는 방법 중 하나로, 질문과 문서의 연관성을 계산, 학습하는 방법
 - 하나의 질문에 대해 모델은 정답 문서와 오답 문서 여러 개를 입력 받고, 정답 문서와 질문의 유사도를 높이고, 오답 문서와의 유사도는 낮춘다.
 

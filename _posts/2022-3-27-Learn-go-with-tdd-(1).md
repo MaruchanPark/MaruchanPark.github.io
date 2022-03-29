@@ -55,7 +55,7 @@ func TestHello(t *testing.T) {
 ```
 - hello.go가 위치한 디렉토리에 테스트 코드 hello_test.go 작성
 
-테스트 수행을 위해 `go test`를 터미널에 입력하면, 모듈 에러가 발생한다. 구버전을 사용할 경우 통과할 수 있다고 한다. `go mod init hello`로 go.mod 파일을 생성 한 후 테스트를 진행 할 수 있다.  
+테스트 수행을 위해 `go test`를 터미널에 입력하면, 모듈 에러가 발생한다. 구버전을 사용할 경우 통과하는 경우도 있다고 한다. `go mod init hello`로 go.mod 파일을 생성 한 후 테스트를 진행 할 수 있다.  
 test 코드 작성에는 몇 가지 규칙이 있다.
 - 테스트 코드 파일명 형식 : xxx_test.go
 - 테스트 함수는 Test로 시작한다. (ex: `func TestHello`)
@@ -96,7 +96,8 @@ func main() {
 	fmt.Println(Hello("World"))
 }
 ```
-- 입력 인자만 추가해주고 테스트를 실행되게 하자.
+- 입력 인자만 추가해주고 테스트를 실행되게 하자.  
+
 ```bash
 $ go test
 --- FAIL: TestHello (0.00s)
@@ -112,6 +113,7 @@ func Hello(name string) string {
 }
 ```
 - 테스트를 통과하게 코드 수정  
+
 ```bash
 $ go test
 PASS

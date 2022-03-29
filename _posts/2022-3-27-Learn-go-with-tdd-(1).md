@@ -127,3 +127,7 @@ ok      hello   0.001s
 ### Go doc
 `sudo apt-get install golang-golang-x-tools`를 터미널에 입력, godoc을 설치하고 `godoc -http :8000`을 실행, 브라우저로 localhost:8000/pkg에 접속하면 사용중인 시스템에 설치된 패키지에 대한 설명을 볼 수 있다.  
 `$ go install golang.org/x/tools/cmd/godoc@latest` 이렇게도 설치 할 수 있다고 한다.
+
+-----
+
+[^fn-sample_footnote]: Handy! Now click the return link to go back.

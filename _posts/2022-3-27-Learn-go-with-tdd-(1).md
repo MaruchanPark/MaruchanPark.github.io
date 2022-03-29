@@ -10,7 +10,7 @@ use_math: true
 Go를 기초부터 배우기 적합한 교재를 찾아서 TDD도 익힐 겸, Go도 익힐겸 겸사겸사 공부하고 정리하려고 한다. TDD 개발은 매우 효율적이라서 남아도는 시간을 어떻게 써야할지 고민을 해야 한다고 한다!! 어서 해봐야겠다!!!  
 교재 : https://quii.gitbook.io/learn-go-with-tests/
 
-hello.go
+#### **`hello.go`**
 ```go
 package main
 
@@ -22,7 +22,7 @@ func main() {
 ```
 - main 함수에서 fmt 패키지의 Println 함수로 Hello, World를 출력한다.
 
-hello.go
+#### **`hello.go`**
 ```go
 package main
 
@@ -38,7 +38,7 @@ func main() {
 ```
 - domain(Hello, World)과 side-effect(Println)를 분리한다.
 
-hello_test.go
+#### **`hello_test.go`**
 ```go
 package main
 
@@ -66,7 +66,7 @@ test 코드 작성에는 몇 가지 규칙이 있다.
 
 위 예제에서는 함수를 먼저 작성하고 테스트 코드를 작성했다면, 이제부터는 테스트를 먼저 작성하고, 함수를 작성한다.  
 
-hello_test.go
+#### **`hello_test.go`**
 ```go
 package main
 
@@ -86,7 +86,7 @@ func TestHello(t *testing.T) {
 
 ![image](https://user-images.githubusercontent.com/48475993/160267526-1d48452c-fff1-4b4c-83ef-d7beba5956da.png)
 
-hello.go
+#### **`hello.go`**
 ```go
 func Hello(name string) string {
 	return "Hello, World"
@@ -107,7 +107,8 @@ exit status 1
 FAIL    hello   0.001s
 ```
 
-```go:hello.go
+#### **`hello.go`**
+```go
 func Hello(name string) string {
 	return "Hello, " + name
 }
@@ -120,7 +121,8 @@ PASS
 ok      hello   0.001s
 ```
 
-```go:hello.go
+#### **`hello.go`**
+```go
 const englishHelloPrefix = "Hello, "
 
 func Hello(name string) string {
@@ -130,7 +132,8 @@ func Hello(name string) string {
 - 상수를 지정해준다. 매번 Hello 함수를 통해 "Hello, "를 새로 불러오는 것 보다 더 빠르다고 한다. 간단한 예제라서 차이가 크진 않겠지만, 상수 변수에 이름도 지정해줄 수 있고, 성능도 좋아진다니 여러모로 유용하겠다.
 - 전역 변수로 지정된 상수를 함수가 사용한다. 좋은 방법일까?  
 
-```go:hello_test.go
+#### **`hello_test.go`**
+```go
 package main
 
 import "testing"
@@ -158,7 +161,8 @@ func TestHello(t *testing.T) {
 - subtests 도입. 함수의 인자가 없는 경우도 테스트에 추가.
 - 반복되는 코드를 함수로 만들자.  
 
-```go:hello_test.go
+#### **`hello_test.go`**
+```go
 func TestHello(t *testing.T) {
 
 	assertCorrectMessage := func(t testing.TB, got, want string) {
@@ -183,13 +187,54 @@ func TestHello(t *testing.T) {
 	})
 }
 ```
+- 함수 내에서 함수를 선언하고 사용 할 수 있다.
+- t.Helper()는 어떤 subtest에서 실패했는지 에러 라인을 명확히 알려준다.
+
+t.Helper() 코멘트 처리 후 테스트  
+```bash
+hello_test.go:10: got "Hello, " want "Hello, World"
+```
+
+t.Helper() 코멘트 해제 후 테스트  
+```bash
+hello_test.go:25: got "Hello, " want "Hello, World"
+```
+- 이제 테스트를 통과하게 함수를 고치자.
+
+#### **`Hello.go`**
+```go
+func Hello(name string) string {
+	if name == "" {
+		name = "World"
+	}
+	return englishHelloPrefix + name
+}
+```
+
+```bash
+$ go test
+PASS
+ok      hello   0.002s
+```
+- 여기까지 하고 커밋!
+- 지금까지 한 TDD 과정은 다음과 같다.
+	1. 테스트 작성
+	2. 컴파일 통과
+	3. 테스트 실행, 에러 메세지가 적절한지 확인
+	4. 테스트 통과하게 코드 작성
+	5. 리팩토링
+- 테스트 케이스를 미리 작성했으므로, 테스트가 간단하고, 리팩토링을 하고 테스트를 다시 하기 때문에 코드 기능이 변하지 않음을 보장해준다.
+
 
 ```go
+
 ```
 
 ```go
 ```
 
+```go
+```
 ### Go doc
 `sudo apt-get install golang-golang-x-tools`를 터미널에 입력, godoc을 설치하고 `godoc -http :8000`을 실행, 브라우저로 localhost:8000/pkg에 접속하면 사용중인 시스템에 설치된 패키지에 대한 설명을 볼 수 있다.  
 `$ go install golang.org/x/tools/cmd/godoc@latest` 이렇게도 설치 할 수 있다고 한다.

@@ -107,7 +107,7 @@ exit status 1
 FAIL    hello   0.001s
 ```
 
-```go
+```go:hello.go
 func Hello(name string) string {
 	return "Hello, " + name
 }
@@ -118,6 +118,70 @@ func Hello(name string) string {
 $ go test
 PASS
 ok      hello   0.001s
+```
+
+```go:hello.go
+const englishHelloPrefix = "Hello, "
+
+func Hello(name string) string {
+	return englishHelloPrefix + name
+}
+```
+- 상수를 지정해준다. 매번 Hello 함수를 통해 "Hello, "를 새로 불러오는 것 보다 더 빠르다고 한다. 간단한 예제라서 차이가 크진 않겠지만, 상수 변수에 이름도 지정해줄 수 있고, 성능도 좋아진다니 여러모로 유용하겠다.
+- 전역 변수로 지정된 상수를 함수가 사용한다. 좋은 방법일까?  
+
+```go:hello_test.go
+package main
+
+import "testing"
+
+func TestHello(t *testing.T) {
+	t.Run("Saying hello to people", func(t *testing.T) {
+		got := Hello("Maru")
+		want := "Hello, Maru"
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
+
+	t.Run("Saying hello to world when an empty string is supplied", func(t *testing.T) {
+		got := Hello("")
+		want := "Hello, World"
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
+}
+```
+- subtests 도입. 함수의 인자가 없는 경우도 테스트에 추가.
+- 반복되는 코드를 함수로 만들자.  
+
+```go:hello_test.go
+func TestHello(t *testing.T) {
+
+	assertCorrectMessage := func(t testing.TB, got, want string) {
+		t.Helper()
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	}
+
+	t.Run("Saying hello to people", func(t *testing.T) {
+		got := Hello("Maru")
+		want := "Hello, Maru"
+
+		assertCorrectMessage(t, got, want)
+	})
+
+	t.Run("Saying hello to world when an empty string is supplied", func(t *testing.T) {
+		got := Hello("")
+		want := "Hello, World"
+
+		assertCorrectMessage(t, got, want)
+	})
+}
 ```
 
 ```go

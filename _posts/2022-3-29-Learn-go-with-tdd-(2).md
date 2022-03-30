@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Learn go with tdd (2)
-excerpt: Go Fundamentals-Integers, Iteration
+excerpt: Go Fundamentals-Integers, Iteration, Arrays-and-slices
 date: 2022-3-29 12:00
 tags: [Go, TDD]
 use_math: true
@@ -113,7 +113,7 @@ using module mode; GOMOD=/home/maru/EXT/2022/go_tdd/fundamentals/2_Integers/go.m
 #### 브라우저로 확인을 하니 아래와 같이 나온다. 신기하다.
 ![image](https://user-images.githubusercontent.com/48475993/160756042-577a233f-7e53-4927-83e4-62a541a343d6.png)
 
-- 이제 코드 수정 결과, 예제가 유효하지 않으면 테스트가 실패하게 된다. 함수 예제를 잊을까봐 염려하지 않아도 된다!
+- 이제 코드 수정 후에, 유효하지 않은 예제는 등록되지 않는다. 잘못된 예제를 제공할 위험은 사라졌다!
 
 
 ## Chapter3: Iteration

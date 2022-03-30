@@ -51,6 +51,7 @@ func TestGETPlayers(t *testing.T) {
 ```
 - 함수가 없으므로 컴파일 에러가 발생한다.
 2. 컴파일 통과, 에러 메세지 확인
+
 #### **`server.go`**
 ```go
 package main
@@ -86,6 +87,7 @@ func PlayerServer(w http.ResponseWriter, r *http.Request) {
 
 5. 리팩토링
 - 리팩토링 단계에서는 동작하는 서버를 만든다.
+
 #### **`main.go`**
 ```go
 package main
@@ -107,6 +109,7 @@ func main() {
 ### 두 번째 테스트
 - `"20"`외에 다른 경우에도 동작하게 하기 위한 테스트를 작성한다.
 1. 테스트, 컴파일 통과, 에러 메세지 확인
+
 #### **`server_test.go`**
 ```go
 t.Run("returns Floyd's score", func(t *testing.T) {
@@ -140,6 +143,7 @@ FAIL    server  0.002s
 - 에러 메세지가 적절함을 확인, 테스트를 통과하는 코드를 작성한다.
 4. 테스트 통과
 - `player` 별 케이스 구현
+
 #### **`server.go`**
 ```go
 package main
@@ -171,8 +175,10 @@ func PlayerServer(w http.ResponseWriter, r *http.Request) {
 httptest로 테스트용 response, request body를 만들고, 함수에 입력했다. api 서버를 만들고 테스트 하는 것 보다 덜 구현된 상태에서 테스트가 가능하다.
 player 저장소가 없는 상태에서 꼼수(?) 값으로 테스트 하는 것도, 많은 구현 없이 TDD를 시작할 수 있게 해준다.
 ```
+
 5. 리팩토링
 - `PlayerServer` 기능을 분리
+
 #### **`server.go`**
 ```go
 func PlayerServer(w http.ResponseWriter, r *http.Request) {
@@ -194,6 +200,7 @@ func GetPlayerScore(name string) string {
 ```
 - 테스트도 수행, 통과를 확인.
 - 테스트 코드도 기능을 분리해서 리팩토링 한다.
+
 #### **`server_test.go`**
 ```go
 package main

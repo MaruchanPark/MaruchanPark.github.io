@@ -8,18 +8,16 @@ use_math: true
 --- 
 
 ## Chapter2: Integers
+- TDD 과정을 복기하자.  
+	1. 테스트 작성
+	2. 컴파일 통과 시키기
+	3. 에러 메시지가 적절한지 확인
+	4. 테스트를 통과하는 코드 작성
+	5. 리팩토링
 
-TDD 단계를 복기하자.  
-1. 테스트 작성
-2. 컴파일 통과 시키기
-3. 에러 메시지가 적절한지 확인
-4. 테스트를 통과하는 코드 작성
-5. 리팩토링
-
-이번 챕터에서 구현할 코드를 TDD 단계를 반복적으로 거치면서 완성해볼 것이다.
-
-[교재](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/integers)  
-[코드](https://github.com/MaruchanPark/Learn_go_with_tests/tree/main/fundamentals/2_Integers)  
+- 이번 챕터에서 구현할 코드를 TDD 단계를 반복적으로 거치면서 완성해볼 것이다.
+- [교재](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/integers)  
+- [코드](https://github.com/MaruchanPark/Learn_go_with_tests/tree/main/fundamentals/2_Integers)  
 
 ### 인자 2개를 더하는 함수의 테스트 작성
 #### **`adder_test.go`**
@@ -43,7 +41,7 @@ func TestAdder(t *testing.T) {
 - 테스트 코드의 이름으로 함수가 위치할 파일명은 정해졌다. `adder.go`에 함수를 작성하자.
 
 ### 테스트를 통과하는 코드 작성
-#### **`adder.go`**
+- **`adder.go`**
 ```go
 package integers
 
@@ -53,7 +51,6 @@ func Add(x, y int) int {
 ```
 - 이제 main을 작성하지 않는다!
 - 예시가 너무 간단해서 굳이 2, 3, 4 과정을 거치기 보다는 한 번에 4번 단계로 넘어가는 것을 선택했다.
-
 ```shell
 $ go test
 PASS

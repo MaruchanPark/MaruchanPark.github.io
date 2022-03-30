@@ -22,6 +22,7 @@ HTTP 서버를 구현할 때, TDD를 어떻게 적용할 지 알아보자.
 
 ### 첫 번째 테스트
 1. 테스트
+
 #### **`server_test.go`**
 ```go
 package main

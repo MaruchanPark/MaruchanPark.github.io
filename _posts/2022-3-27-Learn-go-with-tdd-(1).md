@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Learn go with tdd (1)
-excerpt: Hello, World
+excerpt: Go fundamentals (1.Hello, World)
 date: 2022-3-27 15:00
 tags: [Go, TDD]
 use_math: true

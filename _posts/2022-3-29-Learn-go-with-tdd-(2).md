@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Learn go with tdd (2)
-excerpt: Go Fundamentals-Integers, Iteration, Arrays-and-slices
+excerpt: Go Fundamentals (2.Integers, 3.Iteration, 4.Arrays and slices)
 date: 2022-3-29 12:00
 tags: [Go, TDD]
 use_math: true

@@ -41,7 +41,7 @@ func TestAdder(t *testing.T) {
 - 테스트 코드의 이름으로 함수가 위치할 파일명은 정해졌다. `adder.go`에 함수를 작성하자.
 
 ### 테스트를 통과하는 코드 작성
-- **`adder.go`**
+#### **`adder.go`**
 ```go
 package integers
 

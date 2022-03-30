@@ -311,6 +311,118 @@ PASS
 ok      iteration       1.309s
 ```
 
+## Chapter4: Arrays and slices
+- array에는 여러 값을 저장할 수 있다.
+- array의 값을 합하는 함수를 구현해보자.
+
+[교재](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/arrays-and-slices)  
+[코드](https://github.com/MaruchanPark/Learn_go_with_tests/tree/main/fundamentals/4_Arrays_and_slices) 
+
+### sum 함수 구현
+1. 테스트
+#### **`sum_test.go`**
+```go
+package main
+
+import "testing"
+
+func TestSum(t *testing.T) {
+
+	numbers := [5]int{1, 2, 3, 4, 5}
+
+	got := Sum(numbers)
+	want := 15
+
+	if got != want {
+		t.Errorf("got '%d' want '%d' given, %v", got, want, numbers)
+	}
+}
+```
+- 에러 메세지에 입력도 출력하게 해주었다. `%v`는 default format이라고 한다. 뭐가 default 인가 싶지만... array에 잘 동작한다니 넘어가도록 하자.
+
+```shell
+$ go mod init main
+$ go test
+# main.test
+/tmp/go-build2428740758/b001/_testmain.go:13:2: cannot import "main"
+/tmp/go-build2428740758/b001/_testmain.go:21:14: undefined: _test
+FAIL    main [build failed]
+```
+- main 단독으로는 unit-testable 하지 않다고 한다. 무슨 말인지는 잘 모르겠지만, `go.mod` 파일의 package를 `sum`으로 수정해주니 테스트는 진행할 수 있었다.
+#### **`go.mod`**
+```go
+package sum
+
+go 1.17
+```
+```shell
+$ go test
+# sum [sum.test]
+./sum_test.go:9:9: undefined: Sum
+FAIL    sum [build failed]
+```
+2. 컴파일 통과, 에러 메세지 확인
+#### **`sum.go`**
+```go
+package main
+
+func Sum(numbers [5]int) int {
+	return 0
+}
+```
+```shell
+$ go test
+--- FAIL: TestSum (0.00s)
+    sum_test.go:13: got '0' want '15' given, [1 2 3 4 5]
+FAIL
+exit status 1
+FAIL    sum     0.001s
+```
+- 예상되는 에러를 확인했다. 통과하는 코드를 작성하자.
+4. 테스트 통과
+#### **`sum.go`**
+```go
+package main
+
+func Sum(numbers [5]int) (sum int) {
+	for i := 0; i < 5; i++ {
+		sum += numbers[i]
+	}
+	return
+}
+```
+5. 리팩토링
+#### **``**
+```go
+package main
+
+func Sum(numbers [5]int) (sum int) {
+	for _, number := range numbers {
+		sum += number
+	}
+	return
+}
+```
+- range로 array안의 인덱스, 값 쌍을 순서대로 뽑을 수 있다.
+- 인덱스는 `_`(blank identifier)로 받지 않게 처리하였다.
+### 다양한 크기의 array에 대해 적용되게 구현하기
+- array 타입을 `[5]int`로 지정하였다. 다른 타입인 `[6]int`에 대해서는 동작하지 않을 것이다.
+- 크기가 고정되지 않은 array를 slice라고 한다.
+- 다른 크기의 array에 대한 테스트 작성으로 구현을 시작하자.
+1. 테스트
+
+
+
+#### **``**
+```go
+```
+
+
+
+
+
+
+
 -----
 
 [^fn-sample_footnote]: Handy! Now click the return link to go back.

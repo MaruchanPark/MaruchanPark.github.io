@@ -8,7 +8,6 @@ use_math: true
 --- 
 
 ## Chapter: Integers
-이번 타입에서 하는 것:
 
 TDD 단계를 복기하자.  
 1. 테스트 작성

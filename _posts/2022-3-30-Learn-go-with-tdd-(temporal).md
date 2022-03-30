@@ -1,11 +1,17 @@
 ---
 layout: post
-title: Learn go with tdd (2)
+title: Learn go with tdd (http server)
 excerpt: Build an application (HTTP server)
 date: 2022-3-30 23:00
 tags: [Go, TDD, temporal]
 use_math: true
 --- 
+
+HTTP 서버를 구현할 때, TDD를 어떻게 적용할 지 알아보자.  
+혼자서 머리를 굴려봤는데, 시작을 어떻게 할지 정하기도 어려워서, 진도를 좀 건너뛰고, 바로 서버 구현에서의 TDD 실습을 해보겠다.  
+
+[교재](https://quii.gitbook.io/learn-go-with-tests/build-an-application/http-server)  
+[코드](https://github.com/MaruchanPark/Learn_go_with_tests/tree/main/build_an_application/HTTP_server)
 
 ## 어떤 서버를 구현하나?
 - GET /players/{name} should return a number indicating the total number of wins

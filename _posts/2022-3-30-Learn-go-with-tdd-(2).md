@@ -116,3 +116,5 @@ using module mode; GOMOD=/home/maru/EXT/2022/go_tdd/fundamentals/2_Integers/go.m
 - 이제 코드 수정 결과, 예제가 유효하지 않으면 테스트가 실패하게 된다. 함수 예제를 잊을까봐 염려하지 않아도 된다!
 
 -----
+
+[^fn-sample_footnote]: Handy! Now click the return link to go back.

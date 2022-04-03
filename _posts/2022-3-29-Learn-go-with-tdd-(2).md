@@ -318,10 +318,11 @@ ok      iteration       1.309s
 [교재](https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/arrays-and-slices)  
 [코드](https://github.com/MaruchanPark/Learn_go_with_tests/tree/main/fundamentals/4_Arrays_and_slices) 
 
-### sum 함수 구현
-1. 테스트
-#### **`sum_test.go`**
+### 4-1. sum 함수 구현
+##### [4-1] 테스트
+
 ```go
+//sum_test.go
 package main
 
 import "testing"
@@ -349,8 +350,9 @@ $ go test
 FAIL    main [build failed]
 ```
 - main 단독으로는 unit-testable 하지 않다고 한다. 무슨 말인지는 잘 모르겠지만, `go.mod` 파일의 package를 `sum`으로 수정해주니 테스트는 진행할 수 있었다.
-#### **`go.mod`**
+
 ```go
+//go.mod
 package sum
 
 go 1.17
@@ -361,9 +363,11 @@ $ go test
 ./sum_test.go:9:9: undefined: Sum
 FAIL    sum [build failed]
 ```
-2. 컴파일 통과, 에러 메세지 확인
-#### **`sum.go`**
+
+##### [4-1] 컴파일 통과, 에러 메세지 확인
+
 ```go
+//sum.go
 package main
 
 func Sum(numbers [5]int) int {
@@ -379,9 +383,10 @@ exit status 1
 FAIL    sum     0.001s
 ```
 - 예상되는 에러를 확인했다. 통과하는 코드를 작성하자.
-4. 테스트 통과
-#### **`sum.go`**
+
+##### [4-1] 테스트 통과
 ```go
+//sum.go
 package main
 
 func Sum(numbers [5]int) (sum int) {
@@ -391,9 +396,10 @@ func Sum(numbers [5]int) (sum int) {
 	return
 }
 ```
-5. 리팩토링
-#### **``**
+
+##### [4-1] 리팩토링
 ```go
+//sum.go
 package main
 
 func Sum(numbers [5]int) (sum int) {
@@ -405,19 +411,343 @@ func Sum(numbers [5]int) (sum int) {
 ```
 - range로 array안의 인덱스, 값 쌍을 순서대로 뽑을 수 있다.
 - 인덱스는 `_`(blank identifier)로 받지 않게 처리하였다.
-### 다양한 크기의 array에 대해 적용되게 구현하기
+
+### 4-2. 다양한 크기의 array에 대해 적용되게 구현하기
 - array 타입을 `[5]int`로 지정하였다. 다른 타입인 `[6]int`에 대해서는 동작하지 않을 것이다.
-- 크기가 고정되지 않은 array를 slice라고 한다.
-- 다른 크기의 array에 대한 테스트 작성으로 구현을 시작하자.
-1. 테스트
+- Go에서는 크기가 고정되지 않은 array를 slice라고 한다.
+- slice에 대한 테스트 작성으로 구현을 시작하자.
 
+##### [4-2] 테스트
+- 함수의 입력 타입이 slice인 다른 케이스를 추가한다.
 
-
-#### **``**
 ```go
+//sum_test.go
+func TestSum(t *testing.T) {
+
+	t.Run("collection of 5 numbers", func(t *testing.T) {
+		numbers := [5]int{1, 2, 3, 4, 5}
+
+		got := Sum(numbers)
+		want := 15
+
+		if got != want {
+			t.Errorf("got '%d' want '%d' given, %v", got, want, numbers)
+		}
+	})
+
+	t.Run("collection of any size", func(t *testing.T) {
+		numbers := []int{1, 2, 3}
+
+		got := Sum(numbers)
+		want := 6
+
+		if got != want {
+			t.Errorf("got '%d' want '%d' give, %v", got, want, numbers)
+		}
+	})
+}
+```
+- Sum 함수는 [5]int 타입 입력을 받도록 되어있다. 컴파일 에러가 발생한다.
+
+##### [4-2] 컴파일 통과, 에러 메세지 확인, 테스트 통과
+
+```go
+//sum.go
+func Sum(numbers []int) (sum int) {
+```
+- 입력을 slice로 변경
+- 여전히 컴파일 되지 않는데, 테스트 코드의 [5]int 입력 때문이니 slice로 변경해준다.
+
+```go
+//sum_test.go
+func TestSum(t *testing.T) {
+
+	t.Run("collection of 5 numbers", func(t *testing.T) {
+		numbers := []int{1, 2, 3, 4, 5}
+```
+- 테스트가 통과한다.
+
+##### [4-2] 리팩토링
+- 2개의 테스트 케이스까지는 필요하지 않아보임.
+- `go test -cover`로 coverage를 확인한다.
+```shell
+$ go test -cover
+PASS
+coverage: 100.0% of statements
+ok      sum     0.001s
+```
+- 테스트 케이스를 지워보자.
+```go
+//sum_test.go
+func TestSum(t *testing.T) {
+	
+	t.Run("collection of any size", func(t *testing.T) {
+		numbers := []int{1, 2, 3}
+
+		got := Sum(numbers)
+		want := 6
+
+		if got != want {
+			t.Errorf("got '%d' want '%d' give, %v", got, want, numbers)
+		}
+	})
+}
+```
+- 다시 coverage를 확인한다.
+```shell
+$ go test -cover
+PASS
+coverage: 100.0% of statements
+ok      sum     0.001s
 ```
 
+### [4-3] SumAll 구현
+##### [4-3] 테스트
+- 기존 테스트 코드에 새로운 함수의 테스트를 구현한다.
+```go
+//sum_test.go
+func TestSumAll(t *testing.T) {
 
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	want := []int{3, 9}
+
+	if got != want {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+```
+
+##### [4-3] 컴파일 통과, 에러 메세지 확인
+- 여러 개의 slice를 받을 수 있는 `SumAll` 함수를 정의하고 컴파일을 통과하자.
+```go
+//sum.go
+func SumAll(numbersToSum ...[]int) (sums []int) {
+	return
+}
+```
+```shell
+$ go test
+# sum [sum.test]
+./sum_test.go:24:9: invalid operation: got != want (slice can only be compared to nil)
+FAIL    sum [build failed]
+```
+- 여전히 컴파일 되지 않는다.
+- slice를 비교하기 위해서는 iterate 하게 비교하는 함수를 직접 작성할 필요가 있어 보인다.
+- 당장은 편의를 위해 `reflect.DeepEqual`을 사용하자.
+```go
+//sum_test.go
+func TestSumAll(t *testing.T) {
+
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	want := []int{3, 9}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+```
+- 다시 테스트 해보자.
+```shell
+$ go test
+--- FAIL: TestSumAll (0.00s)
+    sum_test.go:28: got [] want [3 9]
+FAIL
+exit status 1
+FAIL    sum     0.001s
+```
+- 정상적으로 에러 메세지가 출력되는 것을 확인할 수 있다.
+- `DeepEqual`은 "type safe" 하지 않은 함수로, 사용에 주의가 필요하다.
+- 예를 들어, 다음과 같은 `string`, `slice`의 비교도 컴파일 된다.
+```go
+//sum_test.go
+func TestSumAll(t *testing.T) {
+
+	got := SumAll([]int{1, 2}, []int{0, 9})
+	want := "bob"
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+```
+```shell
+$ go test
+--- FAIL: TestSumAll (0.00s)
+    sum_test.go:28: got [] want bob
+FAIL
+exit status 1
+FAIL    sum     0.001s
+```
+- 비교할 수 없는 타입에 대해서도 컴파일 되는 것을 확인할 수 있다.
+- 앞으로 사용에 주의하도록 하고, 테스트를 원래대로 돌리고 하던 것을 계속 하자.
+##### [4-3] 테스트 통과
+- 입력 slice들(`numbersToSum`)의 합을 담을 slice(`sums`)를 만들고, `Sum` 함수로 결과를 구한다.
+```go
+//sum.go
+func SumAll(numbersToSum ...[]int) (sums []int) {
+	lengthOfNumbers := len(numbersToSum)
+	sums = make([]int, lengthOfNumbers)
+
+	for i, numbers := range numbersToSum {
+		sums[i] = Sum(numbers)
+	}
+
+	return
+}
+```
+
+##### [4-3] 리팩토링
+- `append`를 활용해서 slice의 크기를 고려하지 않아도 되도록 만들자.
+```go
+//sum.go
+func SumAll(numbersToSum ...[]int) (sums []int) {
+
+	for _, numbers := range numbersToSum {
+		sums = append(sums, Sum(numbers))
+	}
+
+	return
+}
+```
+- [4-4]에서는 `SumAll`을 `SumAllTail`(summation 대상에서 첫 번째 성분을 제외)로 수정 해보자.
+
+### [4-4] SumAllTail 구현
+
+##### [4-4] 테스트
+- TestSumAllTails 작성
+```go
+//sum_test.go
+func TestSumAllTails(t *testing.T) {
+
+	got := SumAllTails([]int{1, 2}, []int{0, 9})
+	want := []int{2, 9}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v want %v", got, want)
+	}
+}
+```
+
+##### [4-4] 컴파일 통과, 에러 메세지 확인
+- 함수가 구현되어 있지 않으므로, 컴파일 에러가 발생한다.
+- 컴파일을 통과하기 위한 최소한의 수정으로 함수명을 `SumAllTails`로 변경하고 에러 메세지를 확인한다.
+```go
+//sum.go
+func SumAllTails(numbersToSum ...[]int) (sums []int) {
+```
+- 컴파일 통과, 에러 메세지 확인
+
+##### [4-4] 테스트 통과
+- python과 같이 slicing이 가능하다.
+- 첫 번째 성분만 빼고 `Sum`함수에 입력한다.
+```go
+//sum.go
+func SumAllTails(numbersToSum ...[]int) (sums []int) {
+
+	for _, numbers := range numbersToSum {
+		tail := numbers[1:]
+		sums = append(sums, Sum(tail))
+	}
+
+	return
+}
+```
+- 테스트는 통과한다.
+
+##### [4-4] 리팩토링
+- 리팩토링 할 만한 것이 없다! 다음으로 넘어가자.
+
+### [4-5] empty slice 처리
+- empty slice에 대해 0으로 출력하게 처리하자.
+
+##### [4-5] 테스트
+- 테스트 먼저 구현
+```go
+//sum_test.go
+func TestSumAllTails(t *testing.T) {
+
+	t.Run("make the sums of some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		want := []int{2, 9}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	})
+
+	t.Run("sum over empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{3, 4, 5})
+		want := []int{0, 9}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	})
+}
+```
+- 테스트 해보자.
+```shell
+$ go test
+--- FAIL: TestSumAllTails (0.00s)
+    --- FAIL: TestSumAllTails/sum_over_empty_slices (0.00s)
+panic: runtime error: slice bounds out of range [1:0] [recovered]
+        panic: runtime error: slice bounds out of range [1:0]
+...
+```
+- 런타임 에러가 발생했다.
+- 컴파일 되지 않게 만들 수는 없었을까?
+
+##### [4-5] 컴파일 통과, 에러 메세지 확인
+- 컴파일에는 문제가 없으므로 테스트 통과로 넘어가자.
+
+##### [4-5] 테스트 통과
+- 빈 slice 입력에 대한 예외처리를 해주자.
+```go
+//sum.go
+func SumAllTails(numbersToSum ...[]int) (sums []int) {
+
+	for _, numbers := range numbersToSum {
+		if len(numbers) == 0 {
+			sums = append(sums, 0)
+		} else {
+			tail := numbers[1:]
+			sums = append(sums, Sum(tail))
+		}
+	}
+
+	return
+}
+```
+- 크기가 1인 slice 입력에 대해서는, `[1:]` slicing으로 빈 slice로 `Sum`에 입력된다.
+- `Sum`은 빈 slice 입력에 대해 문제가 없는 것을 알 수 있다.
+
+##### [4-5] 리팩토링
+- 테스트 코드에 반복이 있으므로 리팩토링을 진행한다.
+```go
+//sum_test.go
+func TestSumAllTails(t *testing.T) {
+
+	checkSums := func(t testing.TB, got, want []int) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	}
+
+	t.Run("make the sums of some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		want := []int{2, 9}
+
+		checkSums(t, got, want)
+	})
+
+	t.Run("sum over empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{3, 4, 5})
+		want := []int{0, 9}
+
+		checkSums(t, got, want)
+	})
+}
+```
+- `checkSums`의 `got`, `want` 입력 타입을 slice로 지정해줌으로써 `reflect.DeepEqual`의 "type safey" 문제가 해결되었다!!!
 
 
 

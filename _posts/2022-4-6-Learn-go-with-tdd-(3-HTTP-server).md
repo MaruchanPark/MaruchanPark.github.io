@@ -2,7 +2,7 @@
 layout: post
 title: Learn go with tdd (http server)
 excerpt: Build an application (HTTP server)
-date: 2022-4-6 12:00
+date: 2022-4-6 00:00
 tags: [Go, TDD, HTTP]
 use_math: true
 --- 
